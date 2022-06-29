@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="7">
+    <v-row>
+      <v-col :cols="isEditing ? '7' : '12'">
         <TableClients />
       </v-col>
 
-      <v-col cols="5">
+      <v-col v-if="isEditing" cols="5">
         <CRUDClients />
       </v-col>
     </v-row>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useClientStore } from "../store";
+
 import TableClients from "../components/TableClients.vue";
 import CRUDClients from "./CRUDClients.vue";
 
@@ -22,14 +25,8 @@ export default {
     TableClients,
     CRUDClients,
   },
-  actions: {},
-  data: () => ({
-    client: {
-      cpf: "",
-      name: "",
-      email: "",
-      phone: "",
-    },
-  }),
+  computed: {
+    ...mapState(useClientStore, ["isEditing"]),
+  },
 };
 </script>
