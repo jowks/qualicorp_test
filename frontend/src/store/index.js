@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-// import axios from "axios";
+import axios from "../services/api";
 
 export const useClientStore = defineStore("client", {
   state: () => ({
@@ -34,12 +34,35 @@ export const useClientStore = defineStore("client", {
   },
 
   actions: {
-    saveClient() {},
+    getAllClients() {
+      axios
+        .get("/client")
+        .then((res) => {
+          this.tableItems = res.data;
+        })
+        .catch((e) => console.log(e));
+    },
 
-    deleteClient(item) {
-      this.disableCard();
+    saveClient() {
+      const { cpf, name, email, phone } = this.client;
 
-      console.log(item);
+      axios
+        .post(`/client/${cpf}`, { name, email, phone })
+        .then(() => {
+          this.disableCard();
+          this.getAllClients();
+        })
+        .catch((e) => console.log(e));
+    },
+
+    deleteClient(cpf) {
+      axios
+        .delete(`/client/${cpf}`)
+        .then(() => {
+          this.disableCard();
+          this.getAllClients();
+        })
+        .catch((e) => console.log(e));
     },
 
     enableCard(client) {

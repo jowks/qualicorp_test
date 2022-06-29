@@ -21,9 +21,5 @@ export default {
   components: {
     Clients,
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>

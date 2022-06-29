@@ -13,7 +13,7 @@
         <v-btn icon @click="enableCard(item)" color="orange">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon @click="deleteClient(item)" color="red">
+        <v-btn icon @click="deleteClient(item.cpf)" color="red">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -24,16 +24,21 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useClientStore } from "../store";
-// import axios from "axios";
 
 export default {
   name: "TableClients",
   methods: {
-    ...mapActions(useClientStore, ["enableCard", "deleteClient"]),
+    ...mapActions(useClientStore, [
+      "enableCard",
+      "deleteClient",
+      "getAllClients",
+    ]),
   },
   computed: {
     ...mapState(useClientStore, ["tableHeaders", "tableItems", "isEditing"]),
   },
-  created() {},
+  created() {
+    this.getAllClients();
+  },
 };
 </script>
