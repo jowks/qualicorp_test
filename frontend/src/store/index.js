@@ -26,22 +26,7 @@ export const useClientStore = defineStore("client", {
       { text: "Ações", value: "actions", align: "right", sortable: false },
     ],
 
-    tableItems: [
-      {
-        id: 1,
-        cpf: "45242368802",
-        name: "Joaquim",
-        email: "joaquim.camael@hotmail.com",
-        phone: "19 998400814",
-      },
-      {
-        id: 2,
-        cpf: "12345678900",
-        name: "Camael",
-        email: "ti05@htmeletronica.com.br",
-        phone: "19 38087741",
-      },
-    ],
+    tableItems: [],
   }),
 
   getters: {
