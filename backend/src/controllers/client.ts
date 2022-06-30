@@ -22,7 +22,6 @@ export const listClient = async (req: Request, res: Response) => {
     query = `MATCH (n:Client) RETURN n`;
   }
 
-  // Executa consulta no banco de dados
   const results = await session
     .run(query)
     .then((res: any) => {
@@ -41,12 +40,20 @@ export const updateClient = async (req: Request, res: Response) => {
   const { cpf } = req.params;
   const { name, email, phone } = req.body;
   const arrayResponse: any[] = [];
-  const found = false;
+  var found = false;
   var query = "";
 
-  // Falta validar a existencia do cliente
+  if (!cpf) throw new AppError(`Invalid info`, 400);
 
-  // Se o cliente existe
+  const result = await session
+    .run(`MATCH (n:Client { cpf: '${cpf}' }) RETURN n`)
+    .then((res: any) => {
+      if (res?.records?.length) found = true;
+    })
+    .catch(() => {
+      throw new AppError(`Error updating database`, 500);
+    });
+
   if (!found) {
     query = `
       CREATE (n:Client { 
@@ -58,12 +65,12 @@ export const updateClient = async (req: Request, res: Response) => {
     `;
   } else {
     query = `
-      MATCH (n:Clients { 
+      MATCH (n:Client { 
         cpf: '${cpf}' 
       })
       SET 
         n.name = '${name}',
-        n.email = '${email}'
+        n.email = '${email}',
         n.phone = '${phone}'
       RETURN n
     `;
@@ -76,8 +83,8 @@ export const updateClient = async (req: Request, res: Response) => {
         arrayResponse.push(record.get("n").properties);
       });
     })
-    .catch(() => {
-      throw new AppError(`Error updating database`, 500);
+    .catch((e: any) => {
+      throw new AppError(`Error updating database: ${e}`, 500);
     });
 
   return res.status(201).json(arrayResponse);
@@ -85,13 +92,11 @@ export const updateClient = async (req: Request, res: Response) => {
 
 export const deleteClient = async (req: Request, res: Response) => {
   const { cpf } = req.params;
-  const arrayResponse: any[] = [];
   const query = `
     MATCH (n:Client {
       cpf: '${cpf}'
     })
     DETACH DELETE n
-
   `;
 
   const results = await session.run(query).catch(() => {

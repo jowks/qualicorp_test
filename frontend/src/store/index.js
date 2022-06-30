@@ -6,14 +6,12 @@ export const useClientStore = defineStore("client", {
     isEditing: false,
 
     client: {
-      id: 0,
       cpf: "",
       name: "",
       email: "",
       phone: "",
     },
     defaultClient: {
-      id: 0,
       cpf: "",
       name: "",
       email: "",
@@ -80,7 +78,9 @@ export const useClientStore = defineStore("client", {
     },
 
     searchRegister(cpf) {
-      console.log(cpf);
+      const found = this.tableItems.findIndex((val) => val.cpf == cpf);
+
+      return found;
     },
   },
 });

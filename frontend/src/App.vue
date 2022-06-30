@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app dark>
       <v-spacer />
-      <span class="text-center"> Qualicorp </span>
+      <span class="text-center text-h4"> Qualicorp </span>
       <v-spacer />
     </v-app-bar>
 

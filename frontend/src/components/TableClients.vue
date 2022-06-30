@@ -1,6 +1,8 @@
 <template>
   <v-card>
     <v-toolbar dark>
+      <span class="text-overline"> Clientes </span>
+
       <v-spacer />
 
       <v-btn icon dark @click="enableCard()" color="primary">

@@ -6,7 +6,7 @@ import cors from "cors";
 import AppError from "./error/error";
 import routes from "./routes/routes";
 
-const PORT = 3000;
+const PORT = 3001;
 const app = express();
 
 const optionsCors = {
